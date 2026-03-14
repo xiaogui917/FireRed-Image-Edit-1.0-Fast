@@ -2,6 +2,8 @@
 
 FireRed-Image-Edit-1.0-Fast is a high-performance, AI-driven image editing application that utilizes advanced diffusers and the QwenImageEditPlusPipeline for precise, prompt-based image modifications. Incorporating rapid Transformer configurations, the application provides an interactive Gradio web interface with a custom Soft OrangeRed theme for an aesthetically pleasing user experience. Users can leverage powerful flow match euler discrete schedulers to seamlessly edit visual content by submitting an original image alongside descriptive textual instructions. The application operates entirely in Python, efficiently utilizing CUDA capabilities for accelerated machine learning computations, and serves as a fast, state-of-the-art solution for automated, text-guided image manipulation without complex manual editing software.
 
+![hf.co](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/_L7BspwtH9W6lXLexVSn0.png)
+
 ## Features
 
 * **Advanced Diffusers Pipeline:** Utilizes the QwenImageEditPlusPipeline integrated with FlowMatchEulerDiscreteScheduler for high-fidelity image editing based on user prompts.
