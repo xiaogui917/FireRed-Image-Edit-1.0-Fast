@@ -1,0 +1,46 @@
+name: Build Windows Portable # 构建 Windows 便携包
+
+on:
+  workflow_dispatch: # 手动触发
+  push:
+    branches:
+      - main # 推送到主分支时触发
+    paths:
+      - 'app.py' # 主程序变化时触发
+      - 'requirements.txt' # 依赖变化时触发
+      - 'pre-requirements.txt' # 预依赖变化时触发
+      - 'qwenimage/**' # 核心模型代码变化时触发
+      - 'windows-portable/**' # 便携打包文件变化时触发
+      - '.github/workflows/build-windows-portable.yml' # 工作流自身变化时触发
+
+jobs:
+  build-windows-portable:
+    runs-on: windows-latest # 使用 GitHub Windows 构建机
+    timeout-minutes: 120 # 最长两小时
+
+    steps:
+      - name: Checkout repository # 拉取仓库代码
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11 # 安装 Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build portable package # 构建便携包
+        shell: powershell
+        run: |
+          Set-ExecutionPolicy -Scope Process Bypass
+          .\windows-portable\create_portable_package.ps1 -RepoPath "$PWD" -OutDir "$PWD\dist" -PythonExe python -SkipModelDownload # 不预下载模型，减小包体积
+
+      - name: Archive portable package # 打包构建产物
+        shell: powershell
+        run: |
+          Compress-Archive -Path ".\dist\FireRed-Portable\*" -DestinationPath ".\dist\FireRed-Portable-windows.zip" -Force # 压缩为 zip
+
+      - name: Upload artifact # 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: FireRed-Portable-windows # Artifact 名称
+          path: .\dist\FireRed-Portable-windows.zip # 上传 zip 文件
+          if-no-files-found: error
