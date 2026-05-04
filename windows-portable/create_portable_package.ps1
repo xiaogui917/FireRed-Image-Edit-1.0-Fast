@@ -38,7 +38,10 @@ Remove-Item -Recurse -Force $PortableRoot -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force -Path $PortableRoot, $RuntimeDir, $PythonDir, $AppDir, $ModelsDir, $CacheDir | Out-Null
 
 Write-Step "Copying app source"
-Copy-Item -Recurse -Force (Join-Path $RepoPath "*") $AppDir
+robocopy $RepoPath $AppDir /E /XD .git .github windows-portable /NFL /NDL /NJH /NJS /NP | Out-Null
+if ($LASTEXITCODE -ge 8) {
+    throw "robocopy failed with exit code $LASTEXITCODE # 复制源码失败"
+}
 
 Write-Step "Copying launcher kit"
 Copy-Item -Force (Join-Path $KitDir "Launch-FireRed.bat") $PortableRoot
