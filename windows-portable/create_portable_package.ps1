@@ -47,7 +47,6 @@ Write-Step "Copying launcher kit"
 Copy-Item -Force (Join-Path $KitDir "Launch-FireRed.bat") $PortableRoot
 Copy-Item -Force (Join-Path $KitDir "start_portable.py") $PortableRoot
 Copy-Item -Force (Join-Path $KitDir "download_models.py") $PortableRoot
-Copy-Item -Force (Join-Path $KitDir "README-中文.md") $PortableRoot
 
 Write-Step "Creating virtual environment"
 & $PythonExe -m venv $PythonDir
